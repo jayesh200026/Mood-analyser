@@ -4,6 +4,7 @@ import org.junit.Test;
 import org.junit.Assert;
 
 import moodAnalyser.MoodAnalyser;
+import moodAnalyser.MoodAnalyserException;
 
 public class MoodAnalyserTest {
 
@@ -12,9 +13,13 @@ public class MoodAnalyserTest {
 	 */
 	@Test
 	public void testSad() {
-		MoodAnalyser moodAnalyser = new MoodAnalyser("I am in sad mood");
-		String mood = moodAnalyser.analyseMood();
-		Assert.assertEquals("SAD", mood);
+		try {
+			MoodAnalyser moodAnalyser = new MoodAnalyser("I am in sad mood");
+			String mood = moodAnalyser.analyseMood();
+			Assert.assertEquals("SAD", mood);
+		} catch (MoodAnalyserException e) {
+			System.out.println(e);
+		}
 	}
 
 	/**
@@ -22,19 +27,41 @@ public class MoodAnalyserTest {
 	 */
 	@Test
 	public void testHappy() {
-		MoodAnalyser moodAnalyser = new MoodAnalyser("I am in Any mood");
-		String mood = moodAnalyser.analyseMood();
-		Assert.assertEquals("HAPPY", mood);
+		try {
+			MoodAnalyser moodAnalyser = new MoodAnalyser("I am in Any mood");
+			String mood = moodAnalyser.analyseMood();
+			Assert.assertEquals("HAPPY", mood);
+		} catch (MoodAnalyserException e) {
+			System.out.println(e);
+		}
+
 	}
 
 	/**
-	 * Test for Null value expects Happy mood
+	 * Test for Null value expects exception
 	 */
 	@Test
-	public void testForNullValue_returnsHappy() {
-		MoodAnalyser moodAnalyser = new MoodAnalyser();
-		String mood = moodAnalyser.analyseMood();
-		Assert.assertEquals("HAPPY", mood);
+	public void testForNullValue_getsException() {
+		try {
+			MoodAnalyser moodAnalyser = new MoodAnalyser();
+			moodAnalyser.analyseMood();
+		} catch (MoodAnalyserException e) {
+			System.out.println(e);
+		}
+	}
+
+	/**
+	 * Test for Empty mood expects exception
+	 */
+	@Test
+	public void testForEmptyMood_getsException() {
+		try {
+			MoodAnalyser moodAnalyser = new MoodAnalyser("");
+			moodAnalyser.analyseMood();
+		} catch (MoodAnalyserException e) {
+			System.out.println(e);
+		}
+
 	}
 
 }

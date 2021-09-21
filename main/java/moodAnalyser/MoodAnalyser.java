@@ -7,6 +7,10 @@ package moodAnalyser;
 public class MoodAnalyser {
 	String message;
 
+	public enum errors {
+		EMPTY_MOOD_ERROR,NULL_MOOD_ERROR
+	}
+
 	public MoodAnalyser() {
 		this.message = null;
 	}
@@ -19,20 +23,22 @@ public class MoodAnalyser {
 	 * 
 	 * @return string sad if message contains "sad" word in it else return happy.
 	 */
-	public String analyseMood() {
+	public String analyseMood() throws MoodAnalyserException {
 
-		try {
-			if (message == null) {
-				return "HAPPY";
-			}
-		} catch (NullPointerException e) {
-			System.out.println(e);
+		if (message == null) {
+
+			throw new MoodAnalyserException(errors.NULL_MOOD_ERROR.toString());
+		}
+		if (message.length() == 0) {
+			throw new MoodAnalyserException(errors.EMPTY_MOOD_ERROR.toString());
 		}
 
 		if (message.contains("sad")) {
 			return "SAD";
 		}
+		else {
 		return "HAPPY";
+		}
 	}
 
 }
